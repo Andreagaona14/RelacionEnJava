@@ -4,6 +4,12 @@ public class Cliente {
     private String nombre;
     private String nif;   //Número de indetificación fiscal
 
+    //Constructor
+    public Cliente(String nombre, String nif){
+        this.nombre = nombre;
+        this.nif = nif;
+    }
+
     //Creación Getters
     public String getNombre(){
         return nombre;

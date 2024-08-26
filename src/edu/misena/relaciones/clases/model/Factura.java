@@ -8,6 +8,14 @@ public class Factura {
     private Cliente cliente;
     private ÍtemFactura[] items;
 
+    public Factura(int folio, String descripcion, Date fecha, Cliente cliente, ÍtemFactura[] items){
+        this.folio = folio;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.cliente = cliente;
+        this.items = items;
+    }
+
     //Creación Getters
     public int getFolio() {
         return folio;

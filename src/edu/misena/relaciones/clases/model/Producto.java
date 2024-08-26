@@ -5,6 +5,13 @@ public class Producto {
     private String nombre;
     private double precio;
 
+    //Constructor
+    public Producto(String codigo, String nombre, double precio){
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+
     //Creación Getters
     public String getCodigo(){
         return codigo;
