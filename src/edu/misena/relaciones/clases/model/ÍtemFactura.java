@@ -27,4 +27,19 @@ public class ÍtemFactura {
     public void setCantidad(int cantidad){
         this.cantidad = cantidad;
     }
+
+    //Metodo para calcular el importe de un producto
+    public float calcularImporte(){
+        return (float) (cantidad * producto.getPrecio());
+    }
+
+    //Metodo para mostrar informacion del item registrado.
+    @Override
+    public String toString() {
+        return producto +
+                "\t" + cantidad +
+                "\t" + calcularImporte();
+    }
+
+
 }
