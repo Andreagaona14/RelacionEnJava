@@ -1,4 +1,5 @@
 package edu.misena.relaciones.clases.model;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Factura {
@@ -8,54 +9,83 @@ public class Factura {
     private Cliente cliente;
     private ÍtemFactura[] items;
 
-    public Factura(int folio, String descripcion, Date fecha, Cliente cliente, ÍtemFactura[] items){
-        this.folio = folio;
+
+    private static int ultimoFolio = 0;
+    private static final int MAX_ITEMS = 10;
+    private int indiceItem = 0;
+
+    //Constructor
+    public Factura(String descripcion, Cliente cliente) {
         this.descripcion = descripcion;
-        this.fecha = fecha;
+        this.fecha = new Date();
         this.cliente = cliente;
-        this.items = items;
+        this.items = new ÍtemFactura[MAX_ITEMS];
+
+        //Incrementacion del ultimo folio
+        ultimoFolio++;
+        this.folio = ultimoFolio;
     }
 
-    //Creación Getters
-    public int getFolio() {
-        return folio;
+    //Metodo para añadir items a la factura
+    public void addItemFactura(ÍtemFactura item){
+        if(indiceItem < MAX_ITEMS){
+            items[indiceItem] = item;
+            indiceItem++;
+        }else{
+            System.out.println("Alcanzaste el limite maximo permitido");
+        }
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    /*
+     * Calcula el importe total de la factura sumando el importe de cada ítem en la lista.
+     *
+     * @return el importe total de la factura, como un valor de tipo {@code float}.
+     * Si la lista de ítems está vacía o todos los ítems son {@code null}, el valor retornado será 0.0.
+     */
+
+    public float calcularTotal() {
+        float total = 0;
+        for (ÍtemFactura item : items) {
+            if (item != null) {
+                total += item.calcularImporte();
+            }
+        }
+        return total;
     }
 
-    public Date getFecha() {
-        return fecha;
+    // prepara el detalle de la factura
+    public String generarDetalle() {
+        StringBuilder sb = new StringBuilder("Factura Nº: ");
+        sb.append(folio)
+                .append("\nCliente: ")
+                .append(this.cliente.getNombre())
+                .append("\t NIF: ")
+                .append(cliente.getNif())
+                .append("\nDescripción: ")
+                .append(this.descripcion)
+                .append("\n");
+
+        SimpleDateFormat df = new SimpleDateFormat("dd 'de' MMMM, yyyy");
+        sb.append("Fecha Emisión: ")
+                .append(df.format(this.fecha))
+                .append("\n")
+                .append("\n#\tNombre\t$\tCant.\tTotal\n");
+
+        for(ÍtemFactura item: this.items){
+            if(item == null){
+                continue;
+            }
+            sb.append(item)
+                    .append("\n");
+        }
+        sb.append("\nGran Total: ")
+                .append(calcularTotal());
+
+        return sb.toString();
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public ÍtemFactura[] getItems() {
-        return items;
-    }
-
-    //Creación Setters
-
-    public void setFolio(int folio) {
-        this.folio = folio;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public void setItems(ÍtemFactura[] items) {
-        this.items = items;
+    @Override
+    public String toString() {
+        return generarDetalle();
     }
 }
