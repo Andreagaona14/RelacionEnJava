@@ -57,7 +57,7 @@ public class Factura {
     public String generarDetalle() {
         StringBuilder sb = new StringBuilder("Factura Nº: ");
         sb.append(folio)
-                .append("\nCliente: ")
+                .append("\tCliente: ")
                 .append(this.cliente.getNombre())
                 .append("\t NIF: ")
                 .append(cliente.getNif())
@@ -76,7 +76,7 @@ public class Factura {
                 continue;
             }
             sb.append(item)
-                    .append("\n");
+                    .append("\t");
         }
         sb.append("\nGran Total: ")
                 .append(calcularTotal());
